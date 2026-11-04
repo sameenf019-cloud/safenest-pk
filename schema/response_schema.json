@@ -1,0 +1,70 @@
+﻿{
+  "name": "safenest_pk_response",
+  "strict": true,
+  "schema": {
+    "type": "object",
+    "properties": {
+      "incident_type": {
+        "type": "string",
+        "enum": [
+          "harassment",
+          "scam",
+          "blackmail_sextortion",
+          "fake_account",
+          "deepfake",
+          "other",
+          "not_applicable"
+        ],
+        "description": "Category of incident the user described."
+      },
+      "language": {
+        "type": "string",
+        "enum": ["roman_urdu", "urdu", "english"],
+        "description": "Language the reply is written in."
+      },
+      "is_refusal": {
+        "type": "boolean",
+        "description": "True if this reply is a refusal or fixed safety reply rather than a generated checklist."
+      },
+      "refusal_reason": {
+        "type": ["string", "null"],
+        "enum": [
+          "self_harm_or_emergency",
+          "harmful_request",
+          "out_of_scope",
+          null
+        ],
+        "description": "Reason for refusal, or null if is_refusal is false."
+      },
+      "risk_flags": {
+        "type": "array",
+        "items": {
+          "type": "string",
+          "enum": ["self_harm", "sextortion", "ongoing_danger"]
+        },
+        "description": "Any elevated-risk signals detected in the message."
+      },
+      "checklist": {
+        "type": "array",
+        "items": { "type": "string" },
+        "minItems": 0,
+        "maxItems": 6,
+        "description": "Ordered, actionable steps for the user. Empty if is_refusal is true."
+      },
+      "disclaimer": {
+        "type": "string",
+        "description": "Short reminder that this is a support tool, not a legal or emergency service."
+      }
+    },
+    "required": [
+      "incident_type",
+      "language",
+      "is_refusal",
+      "refusal_reason",
+      "risk_flags",
+      "checklist",
+      "disclaimer"
+    ],
+    "additionalProperties": false
+  }
+}
